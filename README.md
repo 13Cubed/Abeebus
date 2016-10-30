@@ -12,14 +12,14 @@ For each remaining address, Abeebus will sort the addresses numerically by the f
 By default, Abeebus will display the data to stdout in the following format:
 
 ```
-IP Address   | Hostname    | Country | Region     | City      | Postal Code | Latitude | Longitude | ASN
-17.178.96.59 | No Hostname | US      | California | Cupertino | 95014       | 37.3230  | -122.0322 | AS714 Apple Inc.
+IP Address    | Hostname                                  | Country | Region   | City    | Postal Code | Latitude | Longitude | ASN
+52.73.116.225 | ec2-52-73-116-225.compute-1.amazonaws.com | US      | Virginia | Ashburn | 20149       | 39.0437  | -77.4875  | AS14618 Amazon.com Inc.
 ```
 Using the "-w" option, you can provide a filename to which Abeebus will output the data in CSV format:
 
 ```
 IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
-17.178.96.59,imoviegallery.com,US,California,Cupertino,95014,37.3230,-122.0322,AS714 Apple Inc.
+17.178.96.59,No Hostname,US,California,Cupertino,95014,37.3230,-122.0322,AS714 Apple Inc.
 ```
 
 This is useful for working with large data sets in Microsoft Excel or LibreOffice Calc.
