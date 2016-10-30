@@ -17,8 +17,10 @@ IP Address   | Hostname    | Country | Region     | City      | Postal Code | La
 ```
 Using the "-w" option, you can provide a filename to which Abeebus will output the data in CSV format:
 
-`IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN`
-`17.178.96.59,imoviegallery.com,US,California,Cupertino,95014,37.3230,-122.0322,AS714 Apple Inc.`
+```
+IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
+17.178.96.59,imoviegallery.com,US,California,Cupertino,95014,37.3230,-122.0322,AS714 Apple Inc.
+```
 
 This is useful for working with large data sets in Microsoft Excel or LibreOffice Calc.
 
