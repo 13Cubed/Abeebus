@@ -19,7 +19,7 @@ Using the "-w" option, you can provide a filename to which Abeebus will output t
 
 ```
 IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
-17.178.96.59,No Hostname,US,California,Cupertino,95014,37.3230,-122.0322,AS714 Apple Inc.
+52.73.116.225,ec2-52-73-116-225.compute-1.amazonaws.com,US,Virginia,Ashburn,20149,39.0437,-77.4875,AS14618 Amazon.com Inc.
 ```
 
 This is useful for working with large data sets in Microsoft Excel or LibreOffice Calc.
