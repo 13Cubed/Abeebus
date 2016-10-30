@@ -21,4 +21,4 @@ IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
 
 This is useful for working with large data sets in Microsoft Excel or LibreOffice Calc.
 
-*** Abeebus does not use any external libraries, and is compatible with Python 2 and 3. ***
+**Abeebus does not use any external libraries, and is compatible with Python 2 and 3.**
