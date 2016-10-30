@@ -1,5 +1,5 @@
 # Abeebus
-Abeebus is a GeoIP lookup utility utilizing ipinfo.io services. This script is very useful for parsing email headers, small log files, and any other arbitrary data for IPv4 addresses. For any given file, Abeebus will:
+Abeebus is a GeoIP lookup utility utilizing [ipinfo.io](https://ipinfo.io) services. This script is very useful for parsing email headers, small log files, and any other arbitrary data for IPv4 addresses. For any given file, Abeebus will:
 
 - Extract valid IPv4 addresses (e.g., "CSI: Cyber" addresses like 951.27.9.840 will not match)
 - Ignore duplicates
@@ -10,10 +10,10 @@ For each remaining address, Abeebus will sort the addresses numerically by the f
 - IP Address, Hostname, Country, Region, City, Postal Code, Latitude, Longitude, ASN
 
 By default, Abeebus will display the data to stdout in the following format:
-
+'
 IP Address   | Hostname    | Country | Region     | City      | Postal Code | Latitude | Longitude | ASN             
 17.178.96.59 | No Hostname | US      | California | Cupertino | 95014       | 37.3230  | -122.0322 | AS714 Apple Inc.
-
+'
 Using the "-w" option, you can provide a filename to which Abeebus will output the data in CSV format:
 
 IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
