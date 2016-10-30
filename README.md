@@ -5,7 +5,7 @@ Abeebus is a GeoIP lookup utility utilizing ipinfo.io services. This script is v
 - Ignore duplicates
 - Ignore RFC 1918 addresses (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and the loopback network (127.0.0.0/8)
 
-And for each remaining address, Abeebus will sort the IP addresses numerically by the first octet and provide the following data as available from ipinfo.io:
+For each remaining address, Abeebus will sort the addresses numerically by the first octet and provide the following data as available from ipinfo.io:
 
 - IP Address, Hostname, Country, Region, City, Postal Code, Latitude, Longitude, ASN
 
@@ -21,4 +21,4 @@ IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN
 
 This is useful for working with large data sets in Microsoft Excel or LibreOffice Calc.
 
-** Abeebus does not use any external libraries, and is compatible with Python 2 and 3. **
+*** Abeebus does not use any external libraries, and is compatible with Python 2 and 3. ***
