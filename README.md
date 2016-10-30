@@ -9,7 +9,7 @@ For any given file, Abeebus will:
 
 For each remaining address, Abeebus will sort the addresses numerically by the first octet and provide the following data as available from ipinfo.io:
 
-- IP Address, Hostname, Country, Region, City, Postal Code, Latitude, Longitude, ASN
+**- IP Address, Hostname, Country, Region, City, Postal Code, Latitude, Longitude, ASN**
 
 By default, Abeebus will display the data to stdout in the following format:
 
