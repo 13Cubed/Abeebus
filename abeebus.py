@@ -61,9 +61,8 @@ def getData(filenames, sortByFirstOctet):
 
     try:
       rawData = urlopen(url).read()
-    except URLError as err:
-      print ('\nError contacting GeoIP provider: ' + str(err.reason) + '\n')
-      sys.exit(1)
+    except:
+      print ('\nError contacting GeoIP provider\n')
 
     rawData = json.loads(rawData.decode('utf-8'))
 
