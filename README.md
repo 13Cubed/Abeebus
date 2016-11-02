@@ -1,7 +1,7 @@
 # Abeebus
 **Abeebus is a GeoIP lookup utility utilizing [ipinfo.io](https://ipinfo.io) services. This script is very useful for parsing email headers, small log files, and any other arbitrary data for IPv4 addresses.**
 
-For any given file, Abeebus will:
+For any given file(s), Abeebus will:
 
 - Extract valid IPv4 addresses (e.g., "CSI: Cyber" addresses like 951.27.9.840 will not match)
 - Ignore duplicates
