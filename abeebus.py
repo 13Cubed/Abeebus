@@ -34,7 +34,7 @@ def getData(filenames, sortByFirstOctet):
       sys.exit(1)
 
     # Parse file for valid IPv4 addresses via RegEx
-    addresses += re.findall(r'(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)',f.read())
+    addresses += re.findall(r'(\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b)',f.read())
     f.close()
 
   # Remove duplicates from list
@@ -61,10 +61,10 @@ def getData(filenames, sortByFirstOctet):
 
     try:
       rawData = urlopen(url).read()
+      rawData = json.loads(rawData.decode('utf-8'))
     except:
-      print ('\nError contacting GeoIP provider\n')
-
-    rawData = json.loads(rawData.decode('utf-8'))
+      print ('Error parsing address:', filteredAddress)
+      sys.exit(1)
 
     keys = ['ip','hostname','country','region','city','postal','loc','org']
 
