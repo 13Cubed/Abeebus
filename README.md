@@ -5,7 +5,7 @@ For any given file(s), Abeebus will:
 
 - Extract valid IPv4 addresses (e.g., "CSI: Cyber" addresses like 951.27.9.840 will not match)
 - Ignore duplicates
-- Ignore RFC 1918 addresses (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and the loopback network (127.0.0.0/8)
+- Ignore bogon addresses, the loopback network, link local addresses, and RFC 1918 ranges
 
 For each remaining address, Abeebus will provide the following data as available from ipinfo.io:
 
