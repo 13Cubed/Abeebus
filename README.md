@@ -18,6 +18,7 @@ IP Address    | Hostname                                  | Country | Region   |
 52.73.116.225 | ec2-52-73-116-225.compute-1.amazonaws.com | US      | Virginia | Ashburn | 20149       | 39.0437  | -77.4875  | AS14618 Amazon.com Inc.
 ```
 Using the "-s" option, Abeebus will sort the addresses numerically by the first octet.
+
 Using the "-w" option, you can provide a filename to which Abeebus will output the data in CSV format:
 
 ```
