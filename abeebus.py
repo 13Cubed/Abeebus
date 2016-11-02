@@ -35,15 +35,14 @@ def getData(filenames, sortByFirstOctet):
 
     # Parse file for valid IPv4 addresses via RegEx
     addresses += re.findall(r'(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)',f.read())
-
     f.close()
 
   # Remove duplicates from list
   addresses = set(addresses)
 
-  # Filter list to eliminate RFC 1918 addresses and loopback network; add results to new list
+  # Filter list to eliminate bogon addresses, the loopback network, link local addresses, and RFC 1918 ranges; add results to new list
   for address in addresses:
-    if not (re.match(r'^127.\d{1,3}.\d{1,3}.\d{1,3}$|^10.\d{1,3}.\d{1,3}.\d{1,3}$|^172.(1[6-9]|2[0-9]|3[0-1]).[0-9]{1,3}.[0-9]{1,3}$|^192.168.\d{1,3}.\d{1,3}$', address)):
+    if not (re.match(r'^0.\d{1,3}.\d{1,3}.\d{1,3}$|^127.\d{1,3}.\d{1,3}.\d{1,3}$|^169.254.\d{1,3}.\d{1,3}$|^10.\d{1,3}.\d{1,3}.\d{1,3}$|^172.(1[6-9]|2[0-9]|3[0-1]).[0-9]{1,3}.[0-9]{1,3}$|^192.168.\d{1,3}.\d{1,3}$', address)):
       filteredAddresses.append(address)
 
   if (sortByFirstOctet == 1):
