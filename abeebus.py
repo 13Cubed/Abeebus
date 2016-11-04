@@ -83,6 +83,9 @@ def getData(filenames, sortByFirstOctet):
     # Strip trailing comma
     formattedData = formattedData.strip(',')
 
+    # Convert string to Unicode
+    formattedData = formattedData.encode('utf-8')
+
     # Add final formatted data string to list
     results.append(formattedData)
 
