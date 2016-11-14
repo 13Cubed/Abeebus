@@ -70,15 +70,24 @@ def getData(filenames, sortByFirstOctet):
 
     for key in keys:
       try:
-        if not (key == 'loc'):
-          # Strip commas from raw data unless lat/long (loc) key; add a comma at the end of the value
-          formattedData += rawData[key].replace(',','') + ','
-        else:
-          # Add a comma at the end of the value
+        # If the key exists but is null, set its value to 'N/A'
+        if (rawData[key] == ""):
+          rawData[key] = 'N/A'
+
+        # If the key is loc, add a trailing comma to the end of the value
+        if (key == 'loc'):
           formattedData += rawData[key] + ','
+        # If the key is anything else, strip the commas from the value, then add a trailing comma to the end of the value
+        else:
+          formattedData += rawData[key].replace(',','') + ','
+
       except:
-        # If key is missing, add space and comma to move to next field in the CSV
-        formattedData += ' ,'
+        # If the loc key is missing, add 'N/A,N/A' and a trailing comma
+        if (key == 'loc'):
+          formattedData += 'N/A,N/A,'
+        # If any other key is missing, add 'N/A' and a trailing comma
+        else:
+          formattedData += 'N/A,'
 
     # Strip trailing comma
     formattedData = formattedData.strip(',')
