@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # abeebus.py 1.1 - A GeoIP lookup utility utilizing ipinfo.io services.
 # Compatible with Python 2 and 3
-# Copyright 2016 13Cubed. All rights reserved. Written by: Richard Davis
+# Copyright 2018 13Cubed. All rights reserved. Written by: Richard Davis
 
 import sys
 import json
@@ -24,7 +24,7 @@ def getData(filenames, sortByFirstOctet):
 
   addresses = []
   filteredAddresses = []
-  results = ['IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN']
+  results = ['IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN,Count']
 
   for filename in filenames:
     try:
@@ -36,6 +36,9 @@ def getData(filenames, sortByFirstOctet):
     # Parse file for valid IPv4 addresses via RegEx
     addresses += re.findall(r'(\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b)',f.read())
     f.close()
+
+  # Count number of occurrences for each IP address
+  addressCounts = {i:addresses.count(i) for i in addresses}
 
   # Remove duplicates from list
   addresses = set(addresses)
@@ -89,11 +92,9 @@ def getData(filenames, sortByFirstOctet):
         else:
           formattedData += 'N/A,'
 
-    # Strip trailing comma
-    formattedData = formattedData.strip(',')
-
-    # Convert string to Unicode
-    formattedData = formattedData.encode('utf-8')
+    # Get number of occurrences for IP address and add to results
+    addressCount = addressCounts[filteredAddress]
+    formattedData += str(addressCount)
 
     # Add final formatted data string to list
     results.append(formattedData)
@@ -151,7 +152,7 @@ def main():
   else:
     printData(output)
 
-  print ('\nCopyright (C) 2016 13Cubed. All rights reserved.')
+  print ('\nCopyright (C) 2018 13Cubed. All rights reserved.')
 
 if __name__ == '__main__':
   main()
