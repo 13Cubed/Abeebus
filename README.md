@@ -18,7 +18,7 @@ For each remaining address, Abeebus will provide the following data as available
 By default, Abeebus will display the data to stdout in the following format:
 
 ```
-IP Address    | Hostname                                  | Country | Region   | City    | Postal Code | Latitude | Longitude | ASN | Count
+IP Address    | Hostname                                  | Country | Region   | City    | Postal Code | Latitude | Longitude | ASN                     | Count
 52.73.116.225 | ec2-52-73-116-225.compute-1.amazonaws.com | US      | Virginia | Ashburn | 20149       | 39.0437  | -77.4875  | AS14618 Amazon.com Inc. | 5
 ```
 - Using the "**-w**" option, you can provide a filename to which Abeebus will output the data in CSV format (useful for working with large data sets in Microsoft Excel or LibreOffice Calc):
