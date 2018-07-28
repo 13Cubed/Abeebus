@@ -28,6 +28,6 @@ IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN,Count
 52.73.116.225,ec2-52-73-116-225.compute-1.amazonaws.com,US,Virginia,Ashburn,20149,39.0437,-77.4875,AS14618 Amazon.com Inc.,5
 ```
 
-- Using the "**-s**" option, Abeebus will sort the addresses numerically by the first octet.
+- Using the "**-s**" option, Abeebus will sort addresses by count (descending).
 
 **Abeebus does not use any external libraries, and is compatible with Python 2 and 3.**
