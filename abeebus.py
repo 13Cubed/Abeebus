@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# abeebus.py 1.1 - A GeoIP lookup utility utilizing ipinfo.io services.
+# abeebus.py 1.2 - A GeoIP lookup utility utilizing ipinfo.io services.
 # Compatible with Python 2 and 3
 # Copyright 2018 13Cubed. All rights reserved. Written by: Richard Davis
 
@@ -15,7 +15,7 @@ try:
 except ImportError:
   from urllib2 import urlopen
 
-def getData(filenames, sortByFirstOctet):
+def getData(filenames, sortByCount):
   """
   The given file is scraped for IPv4 addresses, and the addresses are used
   with the GeoIP location provider to obtain location data in JSON format.
@@ -24,7 +24,7 @@ def getData(filenames, sortByFirstOctet):
 
   addresses = []
   filteredAddresses = []
-  results = ['IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN,Count']
+  results = []
 
   for filename in filenames:
     try:
@@ -47,14 +47,6 @@ def getData(filenames, sortByFirstOctet):
   for address in addresses:
     if not (re.match(r'^0.\d{1,3}.\d{1,3}.\d{1,3}$|^127.\d{1,3}.\d{1,3}.\d{1,3}$|^169.254.\d{1,3}.\d{1,3}$|^10.\d{1,3}.\d{1,3}.\d{1,3}$|^172.(1[6-9]|2[0-9]|3[0-1]).[0-9]{1,3}.[0-9]{1,3}$|^192.168.\d{1,3}.\d{1,3}$', address)):
       filteredAddresses.append(address)
-
-  if (sortByFirstOctet == 1):
-    # Sort filtered addresses ascending by first octet
-    for i in range(len(filteredAddresses)):
-      filteredAddresses[i] = '%3s.%3s.%3s.%3s' % tuple(filteredAddresses[i].split('.'))
-      filteredAddresses.sort()
-    for i in range(len(filteredAddresses)):
-      filteredAddresses[i] = filteredAddresses[i].replace(' ', '')
 
   # Iterate through new list and obtain GeoIP information from ipinfo.io
   for filteredAddress in filteredAddresses:
@@ -99,6 +91,13 @@ def getData(filenames, sortByFirstOctet):
     # Add final formatted data string to list
     results.append(formattedData)
 
+  if (sortByCount == 1):
+    # Sort addresses by count (descending)
+    results  = sorted(results, key=lambda x: int(x.split(',')[9]), reverse=True)
+
+  # Add column headers
+  results.insert(0,'IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN,Count')
+
   return results
 
 def printData(results):
@@ -124,7 +123,7 @@ def main():
   parser = argparse.ArgumentParser(description='Abeebus - A GeoIP lookup utility utilizing ipinfo.io services.', usage='abeebus.py filename(s) [-w outfile] [-s]', add_help=False)
   parser.add_argument('filenames', nargs="*")
   parser.add_argument('-w', '--write', help='Write output to CSV file instead of stdout', required=False)
-  parser.add_argument('-s', '--sort', action='store_true', help='Sort addresses ascending by first octet', required=False)
+  parser.add_argument('-s', '--sort', action='store_true', help='Sort addresses by count (descending)', required=False)
   parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
   args = vars(parser.parse_args())
 
@@ -135,16 +134,16 @@ def main():
 
   filenames = args['filenames']
   writeToFile = 0
-  sortByFirstOctet = 0
+  sortByCount = 0
 
   if (args['write']):
     writeToFile = 1
     outfile = args['write']
 
   if (args['sort']):
-    sortByFirstOctet = 1
+    sortByCount = 1
 
-  output = getData(filenames,sortByFirstOctet)
+  output = getData(filenames,sortByCount)
 
   if (writeToFile == 1):
     writeData(output,outfile)
