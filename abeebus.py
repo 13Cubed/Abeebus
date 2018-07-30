@@ -123,7 +123,7 @@ def main():
   parser = argparse.ArgumentParser(description='Abeebus - A GeoIP lookup utility utilizing ipinfo.io services.', usage='abeebus.py filename(s) [-w outfile] [-s]', add_help=False)
   parser.add_argument('filenames', nargs="*")
   parser.add_argument('-w', '--write', help='Write output to CSV file instead of stdout', required=False)
-  parser.add_argument('-s', '--sort', action='store_true', help='Sort addresses by count (descending)', required=False)
+  parser.add_argument('-s', '--sort-by-count', action='store_true', help='Sort addresses by count (descending)', required=False)
   parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
   args = vars(parser.parse_args())
 
