@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# abeebus.py 1.2 - A GeoIP lookup utility utilizing ipinfo.io services.
+# abeebus.py 1.3 - A GeoIP lookup utility utilizing ipinfo.io services.
 # Compatible with Python 2 and 3
 # Copyright 2018 13Cubed. All rights reserved. Written by: Richard Davis
 
@@ -101,7 +101,10 @@ def getData(filenames, sortByCount):
   return results
 
 def printData(results):
-  rows = list(csv.reader(results))
+  # The Python 2 csv module does not support Unicode, so ignore anything that isn't ASCII text
+  resultsNoUnicode = [result.encode('ascii','ignore') for result in results]
+
+  rows = list(csv.reader(resultsNoUnicode))
   widths = [max(len(row[i]) for row in rows) for i in range(len(rows[0]))]
 
   for row in rows:
@@ -115,7 +118,8 @@ def writeData(results,outfile):
     sys.exit(1)
 
   for result in results:
-    f.write(result + '\n')
+    # While Unicode characters will not be displayed via stdout, they will be written to the file
+    f.write(result.encode('utf-8') + '\n')
 
   f.close()
 
