@@ -1,4 +1,5 @@
 # Abeebus
+## This project is no longer actively maintained. Consider using [SharpAbeebus](https://github.com/13Cubed/SharpAbeebus) instead! It's a modern C# .NET 8 rewrite that is much, much faster and includes new features.
 **Abeebus is a GeoIP lookup utility utilizing [ipinfo.io](https://ipinfo.io) services. This script is very useful for parsing email headers, log files, and any other arbitrary data for IPv4 addresses, and then obtaining GeoIP data for each of those addresses.**
 
 **Video Demo:**
