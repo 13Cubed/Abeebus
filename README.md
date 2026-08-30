@@ -1,5 +1,4 @@
 # Abeebus
-## This project is no longer actively maintained. Consider using [SharpAbeebus](https://github.com/13Cubed/SharpAbeebus) instead! It's a modern C# .NET 8 rewrite that is much, much faster and includes new features.
 **Abeebus is a GeoIP lookup utility utilizing [ipinfo.io](https://ipinfo.io) services. This script is very useful for parsing email headers, log files, and any other arbitrary data for IPv4 addresses, and then obtaining GeoIP data for each of those addresses.**
 
 **Video Demo:**
@@ -10,7 +9,7 @@ For any given file(s), Abeebus will:
 
 - Extract valid IPv4 addresses (e.g., "CSI: Cyber" addresses like 951.27.9.840 will not match)
 - Ignore duplicates
-- Ignore bogon addresses, the loopback network, link local addresses, and RFC 1918 (private) addresses
+- Ignore the loopback network, link local addresses, RFC 1918 (private) addresses, and the 0.0.0.0/8 range
 
 For each remaining address, Abeebus will provide the following data as available from ipinfo.io:
 
@@ -31,3 +30,5 @@ IP Address,Hostname,Country,Region,City,Postal Code,Latitude,Longitude,ASN,Count
 - Using the "**-a**" option, you can provide an **ipinfo.io API** key if you have large datasets to process.
 
 **Abeebus requires Python 3 (no external libraries needed).**
+
+**A compiled Windows executable is no longer provided. If you need a native Windows binary, you can use [SharpAbeebus](https://github.com/13Cubed/SharpAbeebus), a C# version of this utility.**
