@@ -217,7 +217,7 @@ def getData(filenames, apiToken):
     try:
       addressCounts.update(findAddresses(filename))
     except IOError:
-      print('Could not find the specified file:', filename)
+      print('Could not find the specified file:', filename, file=sys.stderr)
       sys.exit(1)
 
   # Filter list to eliminate the loopback network, link local addresses, RFC 1918 ranges, and the 0.0.0.0/8 range; add results to new list
@@ -333,7 +333,7 @@ def writeData(results,outfile):
     # and renders non-ASCII city and org names as mojibake.
     f = open(outfile, 'w', encoding='utf-8-sig')
   except IOError:
-    print('Could not write the specified file:', outfile)
+    print('Could not write the specified file:', outfile, file=sys.stderr)
     sys.exit(1)
 
   try:
@@ -341,7 +341,7 @@ def writeData(results,outfile):
       # While Unicode characters will not be displayed via stdout, they will be written to the file
       f.write(result + '\n')
   except IOError:
-    print('Could not write the specified file:', outfile)
+    print('Could not write the specified file:', outfile, file=sys.stderr)
     sys.exit(1)
   finally:
     f.close()
