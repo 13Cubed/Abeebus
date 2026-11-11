@@ -1,11 +1,13 @@
 #!/usr/bin/python3
-# Abeebus 2.1 - A GeoIP lookup utility utilizing ipinfo.io services.
+# Abeebus 2.2 - A GeoIP lookup utility utilizing ipinfo.io services.
 # Copyright 2026 13Cubed. All rights reserved. Written by: Richard Davis
 #
 # Options, output and address filtering are unchanged from 2.0. The changes in
-# 2.1 are internal: files are streamed rather than read whole, so arbitrarily
+# 2.1 were internal: files are streamed rather than read whole, so arbitrarily
 # large images can be processed, and lookups reuse a single connection with
-# retry and backoff.
+# retry and backoff. In 2.2, stdout carries the results and nothing else, so
+# that redirecting it yields just the table; the progress bar, diagnostics,
+# errors and the copyright notice go to stderr. On screen nothing moves.
 
 import sys
 import json
@@ -17,7 +19,7 @@ import socket
 import http.client
 import argparse
 
-VERSION = '2.1'
+VERSION = '2.2'
 USER_AGENT = 'Abeebus/' + VERSION
 
 API_HOST = 'ipinfo.io'
@@ -217,7 +219,7 @@ def getData(filenames, apiToken):
     try:
       addressCounts.update(findAddresses(filename))
     except IOError:
-      print('Could not find the specified file:', filename)
+      print('Could not find the specified file:', filename, file=sys.stderr)
       sys.exit(1)
 
   # Filter list to eliminate the loopback network, link local addresses, RFC 1918 ranges, and the 0.0.0.0/8 range; add results to new list
@@ -252,23 +254,23 @@ def getData(filenames, apiToken):
 
       if (error.reason == 'limit'):
         print('\n\nipinfo.io rate limit reached after', format(resolved, ','), 'of',
-          format(total, ','), 'addresses.' + noResults)
+          format(total, ','), 'addresses.' + noResults, file=sys.stderr)
 
         if apiToken:
-          print('This API token has no requests left for the current period.')
+          print('This API token has no requests left for the current period.', file=sys.stderr)
         else:
-          print('Unauthenticated requests allow 1,000 per day. Use -a to specify an API token.')
+          print('Unauthenticated requests allow 1,000 per day. Use -a to specify an API token.', file=sys.stderr)
 
       elif (error.reason == 'auth' and apiToken):
-        print('\n\nipinfo.io rejected the API token.' + noResults)
+        print('\n\nipinfo.io rejected the API token.' + noResults, file=sys.stderr)
 
       else:
         # The address ends the line, so a period after it would read as part of
         # the address. Put the outcome on its own line instead.
-        print('\nError parsing address:', filteredAddress)
+        print('\nError parsing address:', filteredAddress, file=sys.stderr)
 
         if not resolved:
-          print('No results to show.')
+          print('No results to show.', file=sys.stderr)
 
       aborted = True
       break
@@ -305,8 +307,9 @@ def getData(filenames, apiToken):
     # Add final formatted data string to list
     results.append(formattedData)
 
-  # Finish the progress bar so that a completed run does not end short. On
-  # stdout the results overwrite it; with -w it is the last thing on screen.
+  # Finish the progress bar so that a completed run does not end short. The bar
+  # leaves the cursor at the start of its line, so on a terminal the results
+  # overwrite it; with -w it is the last thing on screen.
   if (total > 0 and not aborted):
     progressBar(total, total, status='Getting Results')
 
@@ -333,7 +336,7 @@ def writeData(results,outfile):
     # and renders non-ASCII city and org names as mojibake.
     f = open(outfile, 'w', encoding='utf-8-sig')
   except IOError:
-    print('Could not write the specified file:', outfile)
+    print('Could not write the specified file:', outfile, file=sys.stderr)
     sys.exit(1)
 
   try:
@@ -341,7 +344,7 @@ def writeData(results,outfile):
       # While Unicode characters will not be displayed via stdout, they will be written to the file
       f.write(result + '\n')
   except IOError:
-    print('Could not write the specified file:', outfile)
+    print('Could not write the specified file:', outfile, file=sys.stderr)
     sys.exit(1)
   finally:
     f.close()
@@ -359,17 +362,20 @@ def progressBar(count, total, status=''):
   # longer one would otherwise leave its tail on screen.
   line = '[%s] %s%s ...%s' % (bar, percents, '%', status)
 
-  sys.stdout.write(line.ljust(bar_len + len(status) + 13) + '\r')
-  sys.stdout.flush()
+  # Drawn on stderr. The carriage return is meant for a terminal, and on stdout
+  # it would be written into a redirected file along with the results.
+  sys.stderr.write(line.ljust(bar_len + len(status) + 13) + '\r')
+  sys.stderr.flush()
 
 def main():
-  # GeoIP results routinely contain non-ASCII city and org names. Some consoles
-  # cannot encode them, so substitute rather than fail; -w still writes them
-  # intact as UTF-8.
-  try:
-    sys.stdout.reconfigure(errors='replace')
-  except (AttributeError, ValueError):
-    pass
+  # GeoIP results routinely contain non-ASCII city and org names, and so can a
+  # filename in an error message. Some consoles cannot encode them, so
+  # substitute rather than fail; -w still writes them intact as UTF-8.
+  for stream in (sys.stdout, sys.stderr):
+    try:
+      stream.reconfigure(errors='replace')
+    except (AttributeError, ValueError):
+      pass
 
   parser = argparse.ArgumentParser(description='Abeebus ' + VERSION + ' - A GeoIP lookup utility utilizing ipinfo.io services.', usage='abeebus.py filename(s) [-w outfile] [-a token]', add_help=False)
   parser.add_argument('filenames', nargs="*")
@@ -406,17 +412,17 @@ def main():
     # Nothing was printed over the progress bar, so end its line. A run with
     # no addresses never drew one, and an aborted run already ended it.
     if (not aborted and len(output) > 1):
-      print()
+      print(file=sys.stderr)
 
   elif showResults:
     # The results normally overwrite the progress bar, but an abort message
     # will have broken that up, so separate them
     if aborted:
-      print()
+      print(file=sys.stderr)
 
     printData(output)
 
-  print('\nCopyright (C) 2026 13Cubed. All rights reserved.')
+  print('\nCopyright (C) 2026 13Cubed. All rights reserved.', file=sys.stderr)
 
   if aborted:
     sys.exit(1)
